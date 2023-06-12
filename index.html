@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Random Quote Generator</title>
+</head>
+<body>
+    <div class="quote-box">
+        <h3>Quotes Of The Day</h3>
+        <blockquote id="quote">
+            <p class="loader"></p>
+        </blockquote>
+        <span id="author"></span>
+        <div class="btn-box">
+            <button class="btn" onclick=" getQuote(api)">New Quote</button>
+            <button class="btn" onclick="shareTwitter()"><img src="./twitter.png" alt=""> Twitter</button>
+        </div>
+    </div>
+
+
+    <script>
+        const api = 'https://dummyjson.com/quotes/random';
+        const showQuote = document.getElementById('quote');
+        const showAuthor = document.getElementById('author');
+
+        showAuthor.classList.add('author-box')
+        async function getQuote(url){
+
+            await fetch(url)
+            .then(data => data.json())
+            .then(item => {
+                showQuote.innerText = '"' + item.quote + '"'
+                showAuthor.innerText = item.author
+                showAuthor.classList.remove('author-box')
+            })
+        }
+
+        getQuote(api)
+
+        function shareTwitter(){
+            window.open('https://twitter.com/intent/tweet?text=' + showQuote.innerText + '-' +showAuthor.innerText, 'Twitter Window', 'width=600, height=600')
+        }
+    </script>
+</body>
+</html>
